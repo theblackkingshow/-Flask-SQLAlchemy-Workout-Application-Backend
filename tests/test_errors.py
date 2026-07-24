@@ -20,6 +20,15 @@ class ErrorHandlingTests(unittest.TestCase):
         response = self.client.post("/exercises", json={"name": "A"})
         self.assertEqual(response.status_code, 400)
 
+    def test_malformed_json_returns_json_error(self):
+        response = self.client.post(
+            "/workouts",
+            data='{"date":',
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("error", response.get_json())
+
 
 if __name__ == "__main__":
     unittest.main()

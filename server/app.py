@@ -64,7 +64,9 @@ def get_workout(workout_id):
 
 @app.route("/workouts", methods=["POST"])
 def create_workout():
-    data = request.get_json()
+    data = request.get_json(silent=True)
+    if data is None:
+        return error_response("Invalid workout payload", 400)
     try:
         payload = workout_schema.load(data)
     except ValidationError as exc:
@@ -103,7 +105,9 @@ def get_exercise(exercise_id):
 
 @app.route("/exercises", methods=["POST"])
 def create_exercise():
-    data = request.get_json()
+    data = request.get_json(silent=True)
+    if data is None:
+        return error_response("Invalid exercise payload", 400)
     try:
         payload = exercise_schema.load(data)
     except ValidationError as exc:
@@ -132,7 +136,7 @@ def delete_exercise(exercise_id):
 def add_workout_exercise(workout_id, exercise_id):
     workout = Workout.query.get_or_404(workout_id)
     exercise = Exercise.query.get_or_404(exercise_id)
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     payload = {
         "workout_id": workout.id,
         "exercise_id": exercise.id,

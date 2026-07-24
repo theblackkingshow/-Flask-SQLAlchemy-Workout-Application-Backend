@@ -4,6 +4,7 @@ from flask import Flask, jsonify, make_response, request
 from flask_migrate import Migrate
 from marshmallow import ValidationError
 
+from server.errors import error_response
 from server.models import Exercise, Workout, WorkoutExercise, db
 from server.schemas import ExerciseSchema, WorkoutExerciseSchema, WorkoutSchema
 
@@ -67,7 +68,7 @@ def create_workout():
     try:
         payload = workout_schema.load(data)
     except ValidationError as exc:
-        return make_response(jsonify(exc.messages), 400)
+        return error_response("Invalid workout payload", 400)
 
     workout = Workout(**payload)
     try:
@@ -106,7 +107,7 @@ def create_exercise():
     try:
         payload = exercise_schema.load(data)
     except ValidationError as exc:
-        return make_response(jsonify(exc.messages), 400)
+        return error_response("Invalid exercise payload", 400)
 
     exercise = Exercise(**payload)
     try:
@@ -140,7 +141,7 @@ def add_workout_exercise(workout_id, exercise_id):
     try:
         validated_payload = workout_exercise_schema.load(payload)
     except ValidationError as exc:
-        return make_response(jsonify(exc.messages), 400)
+        return error_response("Invalid workout exercise payload", 400)
 
     existing = WorkoutExercise.query.filter_by(workout_id=workout.id, exercise_id=exercise.id).first()
     if existing:

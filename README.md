@@ -24,6 +24,14 @@ python server/seed.py
 flask --app server.app run
 ```
 
+## API health check
+
+Visit the root route to confirm the service is up:
+
+```bash
+GET /
+```
+
 ## Endpoints
 
 - GET /workouts - list all workouts

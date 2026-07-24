@@ -31,6 +31,7 @@ def home():
         jsonify(
             {
                 "message": "Workout API is running",
+                "status": "ok",
                 "endpoints": [
                     "GET /workouts",
                     "GET /workouts/<id>",

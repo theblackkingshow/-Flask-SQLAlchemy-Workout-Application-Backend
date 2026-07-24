@@ -32,6 +32,14 @@ Visit the root route to confirm the service is up:
 GET /
 ```
 
+## Resetting the database
+
+To reseed the database from scratch, run:
+
+```bash
+python server/seed.py
+```
+
 ## Endpoints
 
 - GET /workouts - list all workouts

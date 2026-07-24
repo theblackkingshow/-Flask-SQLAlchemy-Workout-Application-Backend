@@ -10,6 +10,7 @@ from server.models import Exercise, Workout, WorkoutExercise, db
 
 
 with app.app_context():
+    print("Resetting database and seeding starter records...")
     db.drop_all()
     db.create_all()
 
